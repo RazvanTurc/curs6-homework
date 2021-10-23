@@ -14,48 +14,45 @@ public class Homework {
 
         msg("Exercise 3:");
         System.out.println(
-                Arrays.toString(biggerThan(new int[]{2, 4, 7, 2, 0, 0, 2, -3, -12, 3, 5, 9, 11}, input()))
+                Arrays.toString(biggerThan(new int[]{2, 4, 7, 2, 0, 0, 2, -3, -12, 3, 5, 9, 11},
+                        input("Introduceti numarul dorit: ")))
         );
 
         msg("Exercise 4: ");
-        donations(input());
+        donations(input("Introduceti va rog suma target: "));
 
         msg("Exercise 5: ");
-        System.out.println(donationsMax(input(), input()));
+        System.out.println(donationsMax(
+                input("Introduceti va rog suma target: "),
+                input("Introduceti va rog numarul maxim de donatii: "))
+        );
 
         msg("Exercise 6: ");
-        printSentence(inputString());
+        printSentence(inputString("Scrieti o fraza:"));
     }
 
     static void msg(String message) {
-        System.out.println(message);
+        System.out.print(message);
         System.out.println();
     }
 
-    static int input() {
+    static int input(String message) {
         Scanner scanner = new Scanner(System.in);
+        msg(message);
         return scanner.nextInt();
     }
 
-    static String inputString() {
+    static String inputString(String message) {
         Scanner scanner = new Scanner(System.in);
-        return scanner.nextLine();
-    }
+        msg(message);
 
-    static int[] makeWholeNumbers(int[] numbers) {
-        for (int i = 0; i < numbers.length; i++) {
-            if (numbers[i] < 0) {
-                numbers[i] = 0;
-            }
-        }
-        return numbers;
+        return scanner.nextLine();
     }
 
     static int numbersSum(int[] numbers) {
         int sum = 0;
-        int[] wholeNumbers = makeWholeNumbers(numbers);
 
-        for (int n : wholeNumbers) {
+        for (int n : numbers) {
             sum += n;
         }
         return sum;
@@ -63,9 +60,8 @@ public class Homework {
 
     static int oddNumbers(int[] numbers) {
         int odds = 0;
-        int[] wholeNumbers = makeWholeNumbers(numbers);
 
-        for (int n : wholeNumbers) {
+        for (int n : numbers) {
             if (n % 2 != 0) {
                 odds++;
             }
@@ -74,23 +70,19 @@ public class Homework {
     }
 
     static int[] biggerThan(int[] numbers, int number) {
-        int count = 0;
         int index = 0;
-        int[] wholeNumbers = makeWholeNumbers(numbers);
+        int[] biggerArray = new int[numbers.length];
 
-        for (int n : wholeNumbers) {
+        for (int n : numbers) {
             if (n > number) {
-                count++;
-            }
-        }
-
-        int[] biggerThanNumbers = new int[count];
-        for (int n : wholeNumbers) {
-            if (n > number) {
-                biggerThanNumbers[index] = n;
+                biggerArray[index] = n;
                 index++;
             }
         }
+
+        int[] biggerThanNumbers = new int[index];
+        System.arraycopy(biggerArray, 0, biggerThanNumbers, 0, index);
+
         return biggerThanNumbers;
     }
 
@@ -110,16 +102,14 @@ public class Homework {
     static String donationsMax(int target, int maxDonations) {
         int donations = 0;
         Random random = new Random();
-        String success;
 
         for (int i = 0; i < maxDonations; i++) {
             donations += random.nextInt(1, target);
             if (donations >= target) {
-                return success = "Success, the donations amount is now: " + donations + " $";
+                return "Success, the donations amount is now: " + donations + " $";
             }
         }
-        return success =
-                "The Campaign has been closed as we reached " + maxDonations + " donations\n" +
+        return "The Campaign has been closed as we reached " + maxDonations + " donations\n" +
                         "The donations amount is now: " + donations + " $";
     }
 
@@ -127,8 +117,8 @@ public class Homework {
         String[] sentences = phrase.split("[.]");
         System.out.println(Arrays.toString(sentences));
 
-        for (String n : sentences) {
-            System.out.println(n);
+        for (String s : sentences) {
+            System.out.println(s.trim());
         }
     }
 }
